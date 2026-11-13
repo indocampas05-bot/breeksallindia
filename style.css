@@ -1371,3 +1371,18 @@ iframe {
   .hs-sub{font-size:.62rem;letter-spacing:.14em;margin-top:.4rem}
   .hs-loc{font-size:.66rem;margin-top:.4rem}
 }
+
+/* ============ Gallery: minimal preview + full view ============ */
+.gallery-preview{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.g-item.gp{aspect-ratio:4/3;cursor:pointer}
+.g-item.gp img{object-fit:cover}
+.gallery-full{position:fixed;inset:0;z-index:1020;background:#fff;display:flex;flex-direction:column}
+.gallery-full[hidden]{display:none}
+.gf-bar{flex:0 0 auto;display:flex;align-items:center;justify-content:space-between;padding:.9rem 1.4rem;background:var(--navy-deep);color:#fff}
+.gf-bar h3{margin:0;color:#fff;font-size:1.25rem}
+.gf-close{border:0;width:42px;height:42px;border-radius:50%;background:var(--coral);color:var(--navy-deep);display:grid;place-items:center;font-size:1.1rem;transition:.3s var(--ease)}
+.gf-close:hover{transform:scale(1.08)}
+.gf-body{flex:1 1 auto;overflow-y:auto;padding:1.8rem 0 3rem;-webkit-overflow-scrolling:touch}
+body.gallery-open{overflow:hidden}
+@media(max-width:767px){.gallery-preview{grid-template-columns:repeat(2,1fr);gap:10px}.gf-bar{padding:.7rem 1rem}}
+body.gallery-open .to-top,body.gallery-open .wa-float{display:none}

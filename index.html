@@ -194,7 +194,38 @@
           </div>
         </div>
       </div>
+ <div class="col-lg-10 col-xl-9 reveal">
+        <div class="leader-card">
+          <div class="leader-image">
+            <img
+              src="assets/images/gallery/full/principal.png"
+              alt="School Correspondent"
+              loading="lazy"
+            >
+          </div>
 
+          <div class="leader-content">
+            <span class="leader-label">School Management</span>
+            <h3>Mrs.Shakila</h3>
+            <h6>Principal(M.sc,B.Ed,M.A )</h6>
+
+            <div class="leader-divider"></div>
+
+           <p>
+  "Every child is unique, with the potential to achieve greatness.
+  As educators, our responsibility is to nurture their talents,
+  inspire curiosity and guide them towards a bright future.
+  We strive to create a learning environment where knowledge,
+  discipline and values go hand in hand."
+</p>
+
+<div class="leader-signature">
+  With Best Wishes,<br>
+  <strong>Principal</strong>
+</div>
+          </div>
+        </div>
+      </div>
    
 
     </div>
@@ -347,6 +378,13 @@
             <p>BSc CHEMISTRY B.Ed.</p>
           </div>
         </article>
+        <article class="tcard">
+          <div class="tcard-photo"><img src="assets/images/gallery/full/teacher17.jpeg" alt="R.NIRMALA" loading="lazy" draggable="false"></div>
+          <div class="tcard-body">
+            <h5>Cathelin mary Leena.P</h5>
+            <p>B.A, Tamil  Literature  ,  tamil (Secondary grade  teacher)</p>
+          </div>
+        </article>
       </div>
       <div class="tprogress"><span id="tProg"></span></div>
     </div>
@@ -420,11 +458,27 @@
 <section id="gallery" class="py-section bg-white">
   <div class="container">
     <div class="text-center reveal mb-4"><p class="eyebrow">Gallery</p><h2 class="section-h">Moments at <span>Our School</span></h2>
-      <p class="sub-h">Highlights from our annual sports meet – click any photo to view it full screen.</p></div>
-    <div class="filters reveal" id="galleryFilters" role="tablist"></div>
-    <div class="gallery-grid" id="galleryGrid"></div>
+      <p class="sub-h">A glimpse of life at Breeks – tap any photo to view it full screen.</p></div>
+    <div class="gallery-preview" id="galleryPreview"></div>
+    <div class="text-center mt-4 reveal">
+      <button type="button" class="btn btn-gold" id="galleryExplore" aria-controls="galleryFull" aria-expanded="false">Explore <i class="bi bi-arrow-right ms-1"></i></button>
+    </div>
   </div>
 </section>
+
+<!-- Full gallery (opens from the Explore button) -->
+<div class="gallery-full" id="galleryFull" role="dialog" aria-modal="true" aria-label="Photo gallery" hidden>
+  <div class="gf-bar">
+    <h3>Photo Gallery</h3>
+    <button type="button" class="gf-close" id="galleryClose" aria-label="Close gallery"><i class="bi bi-x-lg"></i></button>
+  </div>
+  <div class="gf-body">
+    <div class="container">
+      <div class="filters" id="galleryFilters" role="tablist"></div>
+      <div class="gallery-grid" id="galleryGrid"></div>
+    </div>
+  </div>
+</div>
 
 <!-- ============ 5. CONTACT US ============ -->
 <section id="contact" class="py-section soft">

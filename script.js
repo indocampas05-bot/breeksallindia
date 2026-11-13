@@ -20,7 +20,10 @@ const CATEGORIES = {
   annual: "Annual Day",
   awards: "Awards & Guests",
   sports: "Sports Activities",
-  performances: "Performances"
+  performances: "Performances",
+  events: "School Events",
+  campus: "Campus",
+  staff: "Staff & Classes"
 };
 
 const gallery = [
@@ -41,8 +44,57 @@ const gallery = [
   { n: "g10", cat: "sports", title: "Ready at the starting line" },
   { n: "g02", cat: "performances", title: "The school band in performance" },
   { n: "g04", cat: "performances", title: "Ribbon stick display" },
-  { n: "g05", cat: "performances", title: "Martial arts demonstration" }
+  { n: "g05", cat: "performances", title: "Martial arts demonstration" },
+  { n: "n01", cat: "events", title: "Kite festival with students and staff" },
+  { n: "n02", cat: "events", title: "Students and teachers on stage" },
+  { n: "n03", cat: "events", title: "Kite-making event with staff" },
+  { n: "n04", cat: "events", title: "Drug-free zone awareness drawing" },
+  { n: "n05", cat: "staff", title: "Teachers together on campus" },
+  { n: "n06", cat: "events", title: "Head boy and head girl investiture" },
+  { n: "n07", cat: "events", title: "Student council investiture" },
+  { n: "n08", cat: "events", title: "Group photo at the memorial" },
+  { n: "n09", cat: "events", title: "House banners at the investiture" },
+  { n: "n10", cat: "campus", title: "New classroom" },
+  { n: "n11", cat: "campus", title: "New classroom interior" },
+  { n: "n12", cat: "sports", title: "Warm-up drill on the sports ground" },
+  { n: "n13", cat: "events", title: "Students with their poster display" },
+  { n: "n14", cat: "events", title: "School assembly" },
+  { n: "n15", cat: "events", title: "Students with placards" },
+  { n: "n16", cat: "events", title: "Students gathered for the prize event" },
+  { n: "n17", cat: "events", title: "Prize event with teachers" },
+  { n: "n18", cat: "sports", title: "Yoga session in the courtyard" },
+  { n: "n19", cat: "events", title: "Students on a rally" },
+  { n: "n20", cat: "events", title: "Little ones at the school building" },
+  { n: "n21", cat: "awards", title: "Student receiving a certificate" },
+  { n: "n22", cat: "events", title: "Students at an event" },
+  { n: "n23", cat: "staff", title: "Teachers group photo" },
+  { n: "n24", cat: "events", title: "Assembly in the courtyard" },
+  { n: "n25", cat: "staff", title: "XII Std 2025–26 class photo" },
+  { n: "n26", cat: "events", title: "Address to the assembly" },
+  { n: "n27", cat: "awards", title: "Students with medals and guest" },
+  { n: "n28", cat: "events", title: "Kudiyarasu Dhinam 2026 parade" },
+  { n: "n29", cat: "events", title: "Craft exhibition" },
+  { n: "n30", cat: "events", title: "Student craft display" },
+  { n: "n31", cat: "events", title: "Gift of appreciation" },
+  { n: "n32", cat: "awards", title: "Students with certificates" },
+  { n: "n33", cat: "events", title: "Aeroplus 2025 participants" },
+  { n: "n34", cat: "events", title: "Educational visit – aircraft display" },
+  { n: "n35", cat: "events", title: "Group photo with the aircraft" },
+  { n: "n36", cat: "events", title: "Students at their computer desks" },
+  { n: "n37", cat: "events", title: "Nursery day celebration" },
+  { n: "n38", cat: "events", title: "Nursery day – costume parade" },
+  { n: "n39", cat: "events", title: "Guests arriving" },
+  { n: "n40", cat: "events", title: "Lamp lighting ceremony" },
+  { n: "n41", cat: "awards", title: "Handshake and congratulations" },
+  { n: "n42", cat: "events", title: "Young students in a group" },
+  { n: "n43", cat: "staff", title: "Staff at the school office" },
+  { n: "n44", cat: "staff", title: "Staff at work in the office" },
+  { n: "n45", cat: "staff", title: "Teachers' Day greetings" },
+  { n: "n46", cat: "staff", title: "Office staff at work" }
 ];
+
+/* Photos shown in the small preview on the page (by file name) */
+const FEATURED = ["g01", "n01", "g03", "n37", "n09", "g02"];
 
 const thumb = g => `assets/images/gallery/thumb/${g.n}.jpg`;
 const full = g => `assets/images/gallery/full/${g.n}.jpg`;
@@ -170,6 +222,39 @@ function buildFilters() {
   `).join("");
 }
 
+function makeItem(g, i, onOpen, src, extra = "") {
+  const el = document.createElement("div");
+
+  el.className = "g-item " + extra;
+  el.tabIndex = 0;
+  el.setAttribute("role", "button");
+  el.setAttribute("aria-label", "Open photo: " + g.title);
+  el.style.animationDelay = (Math.min(i, 12) * 0.04) + "s";
+
+  el.innerHTML = `
+    <img src="${src}"
+      alt="${g.title}"
+      loading="lazy"
+      decoding="async">
+
+    <div class="g-over">
+      <i class="bi bi-arrows-fullscreen"></i>
+      <small>${CATEGORIES[g.cat]}</small>
+      <strong>${g.title}</strong>
+    </div>
+  `;
+
+  el.addEventListener("click", onOpen);
+  el.addEventListener("keydown", e => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      onOpen();
+    }
+  });
+
+  return el;
+}
+
 function render(filter = "all") {
   if (!grid || !filtersEl) return;
 
@@ -181,38 +266,7 @@ function render(filter = "all") {
   grid.innerHTML = "";
 
   visible.forEach((g, i) => {
-    const el = document.createElement("div");
-
-    el.className = "g-item";
-    el.tabIndex = 0;
-    el.setAttribute("role", "button");
-    el.setAttribute("aria-label", "Open photo: " + g.title);
-
-    el.style.animationDelay = (i * 0.04) + "s";
-
-    el.innerHTML = `
-      <img src="${thumb(g)}"
-        alt="${g.title}"
-        loading="lazy"
-        decoding="async">
-
-      <div class="g-over">
-        <i class="bi bi-arrows-fullscreen"></i>
-        <small>${CATEGORIES[g.cat]}</small>
-        <strong>${g.title}</strong>
-      </div>
-    `;
-
-    el.addEventListener("click", () => openLb(i));
-
-    el.addEventListener("keydown", e => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        openLb(i);
-      }
-    });
-
-    grid.appendChild(el);
+    grid.appendChild(makeItem(g, i, () => openLb(i), thumb(g)));
   });
 
   filtersEl.querySelectorAll("button").forEach(b => {
@@ -233,10 +287,73 @@ if (filtersEl) {
   render();
 }
 
+/* Small preview on the page */
+const previewEl = document.getElementById("galleryPreview");
+const featured = FEATURED
+  .map(n => gallery.find(g => g.n === n))
+  .filter(Boolean);
+
+if (previewEl) {
+  featured.forEach((g, i) => {
+    previewEl.appendChild(makeItem(g, i, () => {
+      visible = featured;
+      openLb(i);
+    }, thumb(g), "gp"));
+  });
+}
+
+/* Full gallery overlay (Explore) */
+const fullEl = document.getElementById("galleryFull");
+const exploreBtn = document.getElementById("galleryExplore");
+const closeBtn = document.getElementById("galleryClose");
+
+function openGallery(filter = "all") {
+  if (!fullEl) return;
+
+  render(filter);
+  /* keep the site header/menu visible and clickable above the gallery */
+  fullEl.style.top = (hdr ? hdr.offsetHeight : 0) + "px";
+  fullEl.hidden = false;
+  fullEl.scrollTop = 0;
+  fullEl.querySelector(".gf-body").scrollTop = 0;
+  document.body.classList.add("gallery-open");
+  if (exploreBtn) exploreBtn.setAttribute("aria-expanded", "true");
+  if (closeBtn) closeBtn.focus({ preventScroll: true });
+}
+
+function closeGallery() {
+  if (!fullEl || fullEl.hidden) return;
+  const fromMenu = hdr && hdr.contains(document.activeElement);
+
+  fullEl.hidden = true;
+  document.body.classList.remove("gallery-open");
+  if (exploreBtn) {
+    exploreBtn.setAttribute("aria-expanded", "false");
+    if (!fromMenu) exploreBtn.focus({ preventScroll: true });
+  }
+}
+
+if (exploreBtn) exploreBtn.addEventListener("click", () => openGallery());
+if (closeBtn) closeBtn.addEventListener("click", closeGallery);
+
+addEventListener("keydown", e => {
+  if (e.key !== "Escape") return;
+  const lbOpen = document.getElementById("lightbox");
+  if (lbOpen && lbOpen.classList.contains("show")) return;
+  closeGallery();
+}, true); /* capture: runs before the lightbox closes itself */
+
+/* Any menu link closes the gallery first, then navigates normally */
+document.querySelectorAll("#siteHeader a[href^='#']").forEach(a => {
+  a.addEventListener("click", () => closeGallery());
+});
+addEventListener("hashchange", closeGallery);
+
 /* Gallery category shortcuts */
 document.querySelectorAll("[data-goto]").forEach(a => {
-  a.addEventListener("click", () => {
-    render(a.dataset.goto);
+  a.addEventListener("click", e => {
+    e.preventDefault();
+    openGallery(a.dataset.goto);
   });
 });
 
